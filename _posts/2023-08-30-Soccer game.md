@@ -3,7 +3,7 @@ toc: true
 comments: false
 layout: post
 title: Soccer game
-type: hacks
+type: tangibles
 courses: { compsci: {week: 2} }
 ---
 <html lang="en">

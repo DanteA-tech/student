@@ -2,8 +2,8 @@
 toc: true
 comments: false
 layout: post
-title: rock paper scissors
-type: hacks
+title: Rock paper scissors game
+type: tangibles
 courses: { compsci: {week: 2} }
 ---
 
