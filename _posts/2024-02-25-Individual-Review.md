@@ -5,9 +5,10 @@
 ## College board requirments
 1. Instructions for input from one of the following: the user, a device, an online data stream, a file.	
 - How I met this requirement: When the user is looking at the grid of cards they can flip the card over by clicking it and they can click teh favorite card button. The favorite card is then added to a unique database for favorited cards. 
-<html>
+
 Add to deck/ favorite button
 <img src="{{site.baseurl}}/images/CBdeck.png" alt="Description of Image">
 Favorite card in database
 <img src="{{site.baseurl}}/images/CBfdata.png" alt="Description of Image">
-<html>
+
+2. Use of at least one list (or other collection type) to represent a collection of data that is stored and used to manage program complexity and help fulfill the user’s purpose.
