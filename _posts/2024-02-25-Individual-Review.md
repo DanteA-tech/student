@@ -75,4 +75,6 @@ Another forEach loop in displaySavedDecks iterates over each saved deck name to 
 
 <a href="https://drive.google.com/file/d/1G3QlWPzNot2xnBQAMv9IedKLrnEQ8J5A/view?usp=sharing" title="Link to Video">Click here</a>
 
-## Key commits:
+The video above is under 30mb but the video below is the higher quality video: 
+
+[quality video](https://drive.google.com/file/d/18PZwdJCRlKxugFuzu76vjOO3WkO8p1Ob/view?usp=sharing)
