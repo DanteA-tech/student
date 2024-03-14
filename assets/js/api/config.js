@@ -6,9 +6,10 @@ if (location.hostname === "localhost") {
 } else {
         uri = "http://localhost:8086";
 }
+
 export const options = {
-    method: 'GET',
-    mode: 'cors',
+    method: 'GET', 
+    mode: 'cors', 
     cache: 'default',
     credentials: 'include',
     headers: {

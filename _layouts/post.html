@@ -1,135 +1,70 @@
 ---
 layout: default
 ---
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
-{%comment%} 
-Setup course data
-    - Extract data by course
-    - Within course create units
-{%endcomment%}
+  <header class="post-header">
+    <h1 
+      class="post-title p-name" itemprop="name headline">{{ page.title | escape }}
+      • {% include read_time.html -%}
+    </h1>
 
-{% assign course = site.data[page.course] %} <!-- Load YML data -->
-{% assign units = page.units | split: ',' %}
-<h1>{{page.title}}</h1>
-<br>
+    <p class="post-meta post-meta-title">
+      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+        {{ page.date | date: date_format }}
+      </time>
+      {%- if page.modified_date -%}
+        ~ 
+        {%- assign mdate = page.modified_date | date_to_xmlschema -%}
+        <time class="dt-modified" datetime="{{ mdate }}" itemprop="dateModified">
+          {{ mdate | date: date_format }}
+        </time>
+      {%- endif -%}
+      {%- if page.author -%}
+        • {% for author in page.author %}
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">{{ author }}</span></span>
+            {%- if forloop.last == false %}, {% endif -%}
+        {% endfor %}
+      {%- endif %}
+    </p>
 
-{%comment%} 
-Load all posts with site
-{%endcomment%}
+    {%- if page.description -%}
+      <h2>Description</h2>
+      {%- if site.html_escape.description -%}
+        <p class="page-description">{{ page.description | escape }}</p>
+      {%- else -%}
+        <p class="page-description">{{ page.description }}</p>
+      {%- endif -%}
+    {%- endif -%}
+    
 
-{% assign posts = null | compact %}
-{% assign posts = posts | concat:site.posts | concat:site.pages %}
-
-{%comment%} 
-<!-- Iterate through Course Units -->
-{%endcomment%}
-
-{% for unit in units %}
-{% assign unitKey = "Unit" | append: unit %}
-{% assign unitData = course[unitKey] %}
-<h2>
-  {{ unitKey }}: {{ unitData.title }}
-</h2>
-<p>  {{ unitData.description }} </p>
-
-{% assign start = unitData.start %}
-{% assign end = unitData.end %}
-
-{%comment%} 
-<!-- Output Column Headings for Blogs -->
-{%endcomment%}
-
-<table>
-  <tr>
-    <th>Week</th>
-    <th>Plans</th>
-    <th>Hacks(Todo)</th>
-    <th>Tangibles</th>
-  </tr>
-
-  {%comment%} 
-  <!-- These loops group blogs according to Row (week) and Column (category) 
-    units = empty array
-    sym = value to be used as a separator
-    deli = sym forced to array
-  -->
-  {%endcomment%}
-
-  {% assign units = null | compact %}  
-  {% assign sym = "|||" %} 
-  {% assign deli = sym | compact %} 
-
-  {% for index in (start..end) -%}
-    {% assign plans = null | compact %}
-    {% assign hacks = null | compact %}
-    {% assign tangibles = null | compact %}
-
-
-  {%comment%} 
-  <!-- looping through all posts -->
-  {%endcomment%}
-
-    {% for post in posts %}
-      {% if post.courses[page.course] %}
-  {%comment%} 
-  <!-- prepare data blog post data for evaluation -->
-  {%endcomment%}
-        {% assign week = post.courses[page.course].week | tangibles: 0 %}
-        {% assign title = post.title | compact %}
-        {% assign url = post.url | compact %}
-  
-  {%comment%} 
-  <!-- process posts for current week -->
-  {%endcomment%}
-        {% if week == index %} 
-
-  {%comment%} 
-  <!-- organizing blogs by type -->
-  {%endcomment%}
-          {% if post.type == "plans" %} 
-              {% assign plans = plans | unshift: title %}
-              {% assign plans = plans | unshift: url %}
-          {% elsif post.type == "hacks" %}
-              {% assign hacks = hacks | unshift: title %}
-              {% assign hacks = hacks | unshift: url %} 
-          {% elsif post.type == "tangibles" %}
-              {% assign tangibles = tangibles | unshift: title %}
-              {% assign tangibles = tangibles | unshift: url %} 
-          {% else %}
-              {% assign uk = uk | unshift: title %}
-              {% assign uk = uk | unshift: url %}     
-          {% endif %}
-
+    {% if page.categories.size > 0 and site.show_tags %}
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      {% for category in  page.categories  %}
+        {%- assign prefix = category | slice: 0 -%}
+        {% if prefix == "C" %}
+          <a class="category-tags-link" href="{{site.baseurl}}/categories/cte#{{category|slugize}}">{{category}}</a>
+        {% else %}
+          <a class="category-tags-link" href="{{site.baseurl}}/categories/ap#{{category|slugize}}">{{category}}</a>
         {% endif %}
-      {% endif %}
-    {% endfor %}
-
-  {%comment%} 
-  <!-- ordering units and inserting column delimiters -->
-  {%endcomment%}
-  {% assign units = units | concat:plans | concat:deli | concat:hacks | concat:deli | concat:tangibles  %}
-
-  {%comment%} 
-  <!-- This Loop is maximum iterationss, since elements are pairs it will decrement a extra times at the end -->
-  {%endcomment%}
-  <tr>
-  <td> {{ index }} </td> 
-  <td>
-  {% for i in (0..units.size) -%} 
-    {% if units.size == 0 %}
-      {% break %}
-    {% elsif units[0] == sym %} <!-- make new column -->
-  </td>
-  <td>
-      {% assign units = units | shift %} <!-- remove delimiter -->
-    {% else %} <!-- make a link in the column -->
-      - <a href="{{site.baseurl}}/{{units[0]}}">{{units[1]}}</a> <br/> 
-      {% assign units = units | shift | shift %} <!-- remove title and url -->
+        {% unless forloop.last %}&nbsp;{% endunless %}
+      {% endfor %}
+      </p>
     {% endif %}
-  {% endfor %}
-  </td>
-  </tr>
-  {% endfor %}
 
-</table>
-{% endfor %}
+    {%- if page.toc -%}
+      {% include toc.html html=content %}
+    {%- endif -%}
+
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+  {%- if page.comments -%}
+    {%- include utterances.html -%}
+  {%- endif -%}
+  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+</article>
