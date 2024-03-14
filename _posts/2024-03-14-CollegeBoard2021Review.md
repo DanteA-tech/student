@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 <html>
 
+=======
+>>>>>>> d8ded2f (rename titel)
 ## College Board 2021 MCQ Review
 
 ## I scored a 61/70
@@ -80,6 +83,9 @@ Photo of question
 <img src="{{site.baseurl}}/images/Q59.png" alt="Description of Image">
 
 My correction/reflection: I selected option D, but this option is incorrect since running p on one processor takes 30 sec and runnning the rest on another takes 45. Therefore this one will take 45 seconds instead of 40. Option a is correct since running p and q together and R and S together will result in the solution taking 40 seconds which is what is needed. 
+<<<<<<< HEAD
 
 
 <html>
+=======
+>>>>>>> d8ded2f (rename titel)
